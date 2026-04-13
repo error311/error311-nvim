@@ -89,7 +89,9 @@ return {
       {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make',
-        cond = function() return vim.fn.executable 'make' == 1 end,
+        cond = function()
+          return vim.fn.executable 'make' == 1
+        end,
       },
       { 'nvim-telescope/telescope-ui-select.nvim' },
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
@@ -128,7 +130,9 @@ return {
         pickers = {
           find_files = { hidden = true },
           live_grep = {
-            additional_args = function() return { '--hidden' } end,
+            additional_args = function()
+              return { '--hidden' }
+            end,
           },
           buffers = {
             sort_mru = true,
@@ -157,31 +161,23 @@ return {
       vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = 'Find existing buffers' })
 
-      vim.keymap.set(
-        'n',
-        '<leader>/',
-        function()
-          builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-            winblend = 10,
-            previewer = false,
-          })
-        end,
-        { desc = 'Fuzzy search in current buffer' }
-      )
+      vim.keymap.set('n', '<leader>/', function()
+        builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+          winblend = 10,
+          previewer = false,
+        })
+      end, { desc = 'Fuzzy search in current buffer' })
 
-      vim.keymap.set(
-        'n',
-        '<leader>s/',
-        function()
-          builtin.live_grep {
-            grep_open_files = true,
-            prompt_title = 'Live Grep in Open Files',
-          }
-        end,
-        { desc = '[S]earch [/] in Open Files' }
-      )
+      vim.keymap.set('n', '<leader>s/', function()
+        builtin.live_grep {
+          grep_open_files = true,
+          prompt_title = 'Live Grep in Open Files',
+        }
+      end, { desc = '[S]earch [/] in Open Files' })
 
-      vim.keymap.set('n', '<leader>sn', function() builtin.find_files { cwd = vim.fn.stdpath 'config' } end, { desc = '[S]earch [N]eovim files' })
+      vim.keymap.set('n', '<leader>sn', function()
+        builtin.find_files { cwd = vim.fn.stdpath 'config' }
+      end, { desc = '[S]earch [N]eovim files' })
 
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('telescope-lsp-attach', { clear = true }),
@@ -191,7 +187,12 @@ return {
           vim.keymap.set('n', 'gri', builtin.lsp_implementations, { buffer = buf, desc = '[G]oto [I]mplementation' })
           vim.keymap.set('n', 'grd', builtin.lsp_definitions, { buffer = buf, desc = '[G]oto [D]efinition' })
           vim.keymap.set('n', 'gO', builtin.lsp_document_symbols, { buffer = buf, desc = 'Open Document Symbols' })
-          vim.keymap.set('n', 'gW', builtin.lsp_dynamic_workspace_symbols, { buffer = buf, desc = 'Open Workspace Symbols' })
+          vim.keymap.set(
+            'n',
+            'gW',
+            builtin.lsp_dynamic_workspace_symbols,
+            { buffer = buf, desc = 'Open Workspace Symbols' }
+          )
           vim.keymap.set('n', 'grt', builtin.lsp_type_definitions, { buffer = buf, desc = '[G]oto [T]ype Definition' })
         end,
       })
@@ -221,5 +222,45 @@ return {
       window_overlap_clear_enabled = true,
       window_overlap_clear_ft_ignore = { 'cmp_menu', 'cmp_docs', '' },
     },
+  },
+
+  {
+    'Isrothy/neominimap.nvim',
+    version = 'v3.x.x',
+    lazy = false,
+    keys = {
+      { '<leader>nm', '<cmd>Neominimap Toggle<cr>', desc = 'Toggle minimap' },
+      { '<leader>nf', '<cmd>Neominimap ToggleFocus<cr>', desc = 'Toggle minimap focus' },
+      { '<leader>nr', '<cmd>Neominimap Refresh<cr>', desc = 'Refresh minimap' },
+    },
+    init = function()
+      vim.opt.wrap = false
+      vim.opt.sidescrolloff = 36
+
+      vim.g.neominimap = {
+        auto_enable = true,
+        layout = 'split',
+        split = {
+          minimap_width = 16,
+          direction = 'right',
+        },
+        diagnostic = {
+          enabled = true,
+        },
+        git = {
+          enabled = true,
+        },
+        search = {
+          enabled = true,
+        },
+        mark = {
+          enabled = true,
+        },
+        click = {
+          enabled = true,
+          auto_switch_focus = false,
+        },
+      }
+    end,
   },
 }
