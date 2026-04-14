@@ -8,7 +8,6 @@ local function fix_ui_panels()
   hl(0, 'NeoTreeEndOfBuffer', { bg = '#181818', fg = '#181818' })
   hl(0, 'NeoTreeWinSeparator', { bg = '#181818', fg = '#2b2b2b' })
   hl(0, 'NeoTreeIndentMarker', { fg = '#3c3c3c', bg = '#181818' })
-  hl(0, 'NeoTreeCursorLine', { bg = '#202020' })
 
   -- darker popup / bottom-panel feel
   hl(0, 'NormalFloat', { bg = '#181818', fg = border })
@@ -39,5 +38,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'neo-tree',
-  callback = function() vim.schedule(fix_ui_panels) end,
+  callback = function()
+    vim.schedule(fix_ui_panels)
+  end,
 })

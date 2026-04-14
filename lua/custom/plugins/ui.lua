@@ -201,7 +201,7 @@ return {
 
   {
     '3rd/image.nvim',
-    ft = { 'markdown', 'norg', 'html', 'css' },
+    event = 'VeryLazy',
     opts = {
       backend = 'kitty',
       processor = 'magick_cli',
@@ -215,12 +215,16 @@ return {
           filetypes = { 'markdown', 'vimwiki' },
         },
       },
-      max_width = 100,
-      max_height = 12,
-      max_width_window_percentage = math.huge,
-      max_height_window_percentage = 50,
+
+      max_width = nil,
+      max_height = nil,
+      max_width_window_percentage = 100,
+      max_height_window_percentage = 100,
+      scale_factor = 1.0,
+
       window_overlap_clear_enabled = true,
       window_overlap_clear_ft_ignore = { 'cmp_menu', 'cmp_docs', '' },
+      hijack_file_patterns = { '*.png', '*.jpg', '*.jpeg', '*.gif', '*.webp', '*.avif' },
     },
   },
 
@@ -244,18 +248,12 @@ return {
           minimap_width = 16,
           direction = 'right',
         },
-        diagnostic = {
-          enabled = true,
-        },
-        git = {
-          enabled = true,
-        },
-        search = {
-          enabled = true,
-        },
-        mark = {
-          enabled = true,
-        },
+
+        diagnostic = { enabled = true },
+        git = { enabled = true },
+        search = { enabled = true },
+        mark = { enabled = true },
+
         click = {
           enabled = true,
           auto_switch_focus = false,

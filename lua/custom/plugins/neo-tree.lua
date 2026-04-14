@@ -7,8 +7,6 @@ return {
     'MunifTanjim/nui.nvim',
     'nvim-tree/nvim-web-devicons',
     'antosha417/nvim-lsp-file-operations',
-    -- remove this first if weird first-open behavior still happens
-    -- 's1n7ax/nvim-window-picker',
   },
   keys = {
     { '<leader>e', ':Neotree toggle reveal_force_cwd left<CR>', desc = 'Explorer' },
@@ -19,6 +17,14 @@ return {
     popup_border_style = 'rounded',
     enable_git_status = true,
     enable_diagnostics = false,
+
+    open_files_do_not_replace_types = {
+      'terminal',
+      'Trouble',
+      'qf',
+      'edgy',
+      'neominimap',
+    },
 
     source_selector = {
       winbar = true,
@@ -49,6 +55,7 @@ return {
           ['A'] = 'add_directory',
           ['d'] = 'delete',
           ['r'] = 'rename',
+          ['m'] = 'move',
           ['y'] = 'copy_to_clipboard',
           ['x'] = 'cut_to_clipboard',
           ['p'] = 'paste_from_clipboard',
