@@ -280,7 +280,7 @@ vim.api.nvim_create_autocmd('VimEnter', {
           startup_mark(buf, row, 0, #line, 'Error311NvimLogo')
         elseif i >= 9 and i <= 14 then
           startup_mark(buf, row, 0, #line, 'Error311Logo')
-        elseif i == 16 then
+        elseif i == 16 or i == 43 then
           startup_mark(buf, row, 0, #line, 'Error311Title')
         elseif sep_col then
           local left_text = line:sub(1, sep_col - 1):gsub('%s+$', '')

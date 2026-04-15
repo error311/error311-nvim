@@ -19,7 +19,9 @@ return {
 
       local statusline = require 'mini.statusline'
       statusline.setup { use_icons = vim.g.have_nerd_font }
-      statusline.section_location = function() return '%2l:%-2v' end
+      statusline.section_location = function()
+        return '%2l:%-2v'
+      end
     end,
   },
 
@@ -62,8 +64,12 @@ return {
           local buf = args.buf
           local filetype = args.match
           local language = vim.treesitter.language.get_lang(filetype)
-          if not language then return end
-          if not vim.treesitter.language.add(language) then return end
+          if not language then
+            return
+          end
+          if not vim.treesitter.language.add(language) then
+            return
+          end
 
           vim.treesitter.start(buf, language)
           vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
@@ -75,12 +81,70 @@ return {
   {
     'windwp/nvim-autopairs',
     event = 'InsertEnter',
-    opts = {},
+    opts = {
+      disable_filetype = { 'TelescopePrompt' },
+      disable_in_macro = true,
+      disable_in_replace_mode = true,
+    },
   },
 
   {
     'lukas-reineke/indent-blankline.nvim',
     main = 'ibl',
-    opts = {},
+    config = function()
+      local hooks = require('ibl.hooks')
+
+      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+        vim.api.nvim_set_hl(0, 'IblIndent', { fg = '#2A2A2A' })
+      end)
+
+      require('ibl').setup({
+        indent = {
+          char = '│',
+          highlight = 'IblIndent',
+        },
+        scope = {
+          enabled = false,
+        },
+      })
+    end,
+  },
+
+  {
+    'Wansmer/treesj',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    keys = {
+      {
+        '<leader>m',
+        function()
+          require('treesj').toggle()
+        end,
+        desc = 'TreeSJ toggle split/join',
+      },
+    },
+    opts = {
+      use_default_keymaps = false,
+      max_join_length = 120,
+      cursor_behavior = 'hold',
+      notify = true,
+    },
+  },
+
+  {
+    'nvim-mini/mini.surround',
+    version = '*',
+    event = 'VeryLazy',
+    opts = {
+      mappings = {
+        add = 'sa',
+        delete = 'sd',
+        find = 'sf',
+        find_left = 'sF',
+        highlight = 'sh',
+        replace = 'sr',
+        suffix_last = 'l',
+        suffix_next = 'n',
+      },
+    },
   },
 }

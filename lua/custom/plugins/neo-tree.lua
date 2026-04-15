@@ -14,7 +14,7 @@ return {
   },
   opts = {
     close_if_last_window = false,
-    popup_border_style = 'rounded',
+    popup_border_style = 'single',
     enable_git_status = true,
     enable_diagnostics = false,
 

@@ -8,23 +8,28 @@ return {
   opts = {
     options = {
       mode = 'buffers',
-      separator_style = 'slant',
       diagnostics = false,
       always_show_bufferline = true,
       show_buffer_close_icons = true,
       show_close_icon = false,
       color_icons = true,
+      separator_style = { '', '' },
+      themable = false,
 
       indicator = {
-        style = 'underline',
+        style = 'none',
       },
 
       modified_icon = '●',
       left_trunc_marker = '',
       right_trunc_marker = '',
 
-      close_command = function(bufnum) require('bufdelete').bufdelete(bufnum, true) end,
-      right_mouse_command = function(bufnum) require('bufdelete').bufdelete(bufnum, true) end,
+      close_command = function(bufnum)
+        require('bufdelete').bufdelete(bufnum, true)
+      end,
+      right_mouse_command = function(bufnum)
+        require('bufdelete').bufdelete(bufnum, true)
+      end,
 
       offsets = {
         {
@@ -32,6 +37,7 @@ return {
           text = 'Explorer',
           highlight = 'Directory',
           text_align = 'left',
+          separator = false,
         },
       },
     },
@@ -73,22 +79,23 @@ return {
       modified_selected = {
         fg = '#FFFFFF',
         bg = '#1F1F1F',
-        underline = true,
-        sp = '#0078D4',
+        underline = false,
+        -- sp = '#0078D4',
       },
 
+      -- this is the key part
       separator = {
-        fg = '#2B2B2B',
+        fg = '#181818',
         bg = '#181818',
       },
 
       separator_visible = {
-        fg = '#2B2B2B',
+        fg = '#1F1F1F',
         bg = '#181818',
       },
 
       separator_selected = {
-        fg = '#2B2B2B',
+        fg = '#181818',
         bg = '#1F1F1F',
       },
 
@@ -105,6 +112,12 @@ return {
       close_button_selected = {
         fg = '#FFFFFF',
         bg = '#1F1F1F',
+        underline = false,
+        -- sp = '#0078D4',
+      },
+      tab_separator_selected = {
+        fg = '#1F1F1F',
+        bg = '#1F1F1F',
         underline = true,
         sp = '#0078D4',
       },
@@ -118,7 +131,9 @@ return {
     { '<leader>bp', '<cmd>BufferLineTogglePin<CR>', desc = 'Pin buffer' },
     {
       '<leader>q',
-      function() require('bufdelete').bufdelete(0, true) end,
+      function()
+        require('bufdelete').bufdelete(0, true)
+      end,
       desc = 'Close current buffer',
     },
   },

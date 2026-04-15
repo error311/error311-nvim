@@ -46,7 +46,9 @@ return {
           end
 
           if client and client:supports_method('textDocument/inlayHint', event.buf) then
-            map('<leader>th', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end, '[T]oggle Inlay [H]ints')
+            map('<leader>th', function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+            end, '[T]oggle Inlay [H]ints')
           end
         end,
       })
@@ -63,7 +65,12 @@ return {
           on_init = function(client)
             if client.workspace_folders then
               local path = client.workspace_folders[1].name
-              if path ~= vim.fn.stdpath 'config' and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then return end
+              if
+                path ~= vim.fn.stdpath 'config'
+                and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
+              then
+                return
+              end
             end
 
             client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
@@ -109,7 +116,9 @@ return {
     keys = {
       {
         '<leader>f',
-        function() require('conform').format { async = true, lsp_format = 'fallback' } end,
+        function()
+          require('conform').format { async = true, lsp_format = 'fallback' }
+        end,
         mode = '',
         desc = 'Format buffer',
       },
@@ -118,7 +127,9 @@ return {
       notify_on_error = false,
       format_on_save = function(bufnr)
         local disable_filetypes = {}
-        if disable_filetypes[vim.bo[bufnr].filetype] then return nil end
+        if disable_filetypes[vim.bo[bufnr].filetype] then
+          return nil
+        end
         return {
           timeout_ms = 500,
           lsp_format = 'fallback',
@@ -149,7 +160,9 @@ return {
         'L3MON4D3/LuaSnip',
         version = '2.*',
         build = (function()
-          if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then return end
+          if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
+            return
+          end
           return 'make install_jsregexp'
         end)(),
         opts = {},
@@ -161,17 +174,74 @@ return {
       },
       appearance = {
         nerd_font_variant = 'mono',
+        kind_icons = {
+          Text = '󰉿',
+          Method = '󰊕',
+          Function = '󰊕',
+          Constructor = '󰒓',
+          Field = '󰜢',
+          Variable = '󰆦',
+          Property = '󰖷',
+          Class = '󱡠',
+          Interface = '󱡠',
+          Struct = '󱡠',
+          Module = '󰅩',
+          Unit = '󰪚',
+          Value = '󰦨',
+          Enum = '󰦨',
+          EnumMember = '󰦨',
+          Keyword = '󰻾',
+          Constant = '󰏿',
+          Snippet = '󱄽',
+          Color = '󰏘',
+          File = '󰈔',
+          Reference = '󰬲',
+          Folder = '󰉋',
+          Event = '󱐋',
+          Operator = '󰪚',
+          TypeParameter = '󰬛',
+        },
       },
       completion = {
-        documentation = { auto_show = true, auto_show_delay_ms = 300 },
-        ghost_text = { enabled = true },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 180,
+          window = {
+            border = 'single',
+            winblend = 0,
+          },
+        },
+        ghost_text = {
+          enabled = true,
+          show_with_selection = true,
+        },
+        menu = {
+          min_width = 15,
+          max_height = 12,
+          border = 'single',
+          scrollbar = true,
+          draw = {
+            treesitter = { 'lsp' },
+            columns = {
+              { 'kind_icon' },
+              { 'label', 'label_description', gap = 1 },
+              { 'source_name' },
+            },
+          },
+        },
       },
       sources = {
         default = { 'lsp', 'path', 'snippets' },
       },
       snippets = { preset = 'luasnip' },
       fuzzy = { implementation = 'lua' },
-      signature = { enabled = true },
+      signature = {
+        enabled = true,
+        window = {
+          border = 'single',
+          winblend = 0,
+        },
+      },
     },
   },
 
@@ -189,7 +259,9 @@ return {
       vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
         group = lint_augroup,
         callback = function()
-          if vim.bo.modifiable then lint.try_lint() end
+          if vim.bo.modifiable then
+            lint.try_lint()
+          end
         end,
       })
     end,
