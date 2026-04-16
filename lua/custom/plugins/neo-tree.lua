@@ -18,6 +18,15 @@ return {
     enable_git_status = true,
     enable_diagnostics = false,
 
+    event_handlers = {
+      {
+        event = 'file_opened',
+        handler = function()
+          require('neo-tree.command').execute({ action = 'close' })
+        end,
+      },
+    },
+
     open_files_do_not_replace_types = {
       'terminal',
       'Trouble',
