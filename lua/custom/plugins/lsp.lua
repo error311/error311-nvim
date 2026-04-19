@@ -61,6 +61,7 @@ return {
         jsonls = {},
         phpactor = {},
         clangd = {},
+        bashls = {},
         lua_ls = {
           on_init = function(client)
             if client.workspace_folders then
@@ -98,6 +99,7 @@ return {
         'prettierd',
         'php-cs-fixer',
         'clang-format',
+        'bashls',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
