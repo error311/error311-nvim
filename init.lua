@@ -47,6 +47,12 @@ vim.keymap.set('n', '<Esc><Esc>', '<Cmd>Neotree focus filesystem left<CR>', {
   silent = true,
 })
 
+vim.keymap.set('n', '<leader>wf', '<cmd>Wayfinder<cr>', { desc = 'Wayfinder' })
+vim.keymap.set('n', '<leader>wtn', '<Plug>(WayfinderTrailNext)', { desc = 'Wayfinder Trail Next' })
+vim.keymap.set('n', '<leader>wtp', '<Plug>(WayfinderTrailPrev)', { desc = 'Wayfinder Trail Prev' })
+vim.keymap.set('n', '<leader>wto', '<Plug>(WayfinderTrailOpen)', { desc = 'Wayfinder Trail Open' })
+vim.keymap.set('n', '<leader>wts', '<Plug>(WayfinderTrailShow)', { desc = 'Wayfinder Trail Show' })
+
 vim.diagnostic.config {
   update_in_insert = false,
   severity_sort = true,
