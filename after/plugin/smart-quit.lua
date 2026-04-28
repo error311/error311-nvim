@@ -25,6 +25,14 @@ local function smart_quit()
   local ft = vim.bo[current].filetype
   local real = listed_real_buffers()
 
+  if ft == 'wayfinder' then
+    local ok, actions = pcall(require, 'wayfinder.actions')
+    if ok then
+      actions.close()
+      return
+    end
+  end
+
   -- if you're focused in neo-tree
   if ft == 'neo-tree' then
     if #real <= 1 then

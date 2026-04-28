@@ -22,7 +22,38 @@ return {
       {
         event = 'file_opened',
         handler = function()
+          local previous = vim.api.nvim_get_current_win()
           require('neo-tree.command').execute({ action = 'close' })
+
+          vim.defer_fn(function()
+            local function real_file_window(win)
+              if not win or not vim.api.nvim_win_is_valid(win) then
+                return false
+              end
+
+              local buf = vim.api.nvim_win_get_buf(win)
+              local bo = vim.bo[buf]
+              return bo.buftype == '' and bo.filetype ~= 'neo-tree'
+            end
+
+            if vim.api.nvim_win_is_valid(previous) then
+              pcall(vim.api.nvim_set_current_win, previous)
+            else
+              pcall(vim.cmd, 'wincmd p')
+            end
+
+            local current = vim.api.nvim_get_current_win()
+            if not real_file_window(current) then
+              for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+                if real_file_window(win) then
+                  vim.api.nvim_set_current_win(win)
+                  break
+                end
+              end
+            end
+
+            vim.cmd('stopinsert')
+          end, 20)
         end,
       },
     },
